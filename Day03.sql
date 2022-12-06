@@ -17,6 +17,7 @@ INSERT INTO ogrenciler20 VALUES (128, 'Veli Tan', 'Ali', 99);
 
 -- TRUNCATE bir tablodaki tum verileri geri alamayacagimiz sekilde siler, sartli silme yapmaz
 truncate table ogrenciler20;
+truncate ogrenciler20;
 
 -- ON DELETE CASCADE
 DROP TABLE if exists talebeler; -- eger tablo varsa tabloyu siler
@@ -26,11 +27,11 @@ CREATE TABLE talebeler1
 id CHAR(3) primary key, isim VARCHAR(50), veli_isim VARCHAR(50), yazili_notu int
 );
 
-INSERT INTO talebeler1 VALUES('123', 'Ali Can', 'Hasan', 75);
-INSERT INTO talebeler1 VALUES('124', 'Merve Gul', 'Ayse', 85);
-INSERT INTO talebeler1 VALUES('125', 'Kemal Yasa', 'Hasan', 85);
-INSERT INTO talebeler1 VALUES('126', 'Nesibe Yılmaz', 'Ayse', 95);
-INSERT INTO talebeler1 VALUES('127', 'Mustafa Bak', 'Can', 99);
+INSERT INTO talebeler1 VALUES ('123', 'Ali Can', 'Hasan', 75);
+INSERT INTO talebeler1 VALUES ('124', 'Merve Gul', 'Ayse', 85);
+INSERT INTO talebeler1 VALUES ('125', 'Kemal Yasa', 'Hasan', 85);
+INSERT INTO talebeler1 VALUES ('126', 'Nesibe Yılmaz', 'Ayse', 95);
+INSERT INTO talebeler1 VALUES ('127', 'Mustafa Bak', 'Can', 99);
 
 CREATE TABLE notlar2
 (
@@ -43,7 +44,7 @@ INSERT INTO notlar2 VALUES ('125', 'tarih', 90);
 INSERT INTO notlar2 VALUES ('126', 'Matematik', 90);
 
 select * from talebeler1;
-select * from notlar1;
+select * from notlar2;
 
 -- notlar tablosundan talebe_id si 123 olan data yı silelim
 delete from notlar2 where talebe_id='123';
@@ -52,7 +53,7 @@ delete from notlar2 where talebe_id='123';
 delete from talebeler1 where id='126';
 
 /*
-Her defasında önce child tablodaki verileri silmek yerine ON DELETE CASCADE silme özelliği ile parent tablo dan da veri silebiliriz. Yanlız ON DELETE CASCADE komutu 
+Her defasında önce child tablodaki verileri silmek yerine ON DELETE CASCADE silme özelliği ile parent tablo dan da veri silebiliriz. ON DELETE CASCADE komutu 
 kullanımında parent tablodan sildiğimiz data child tablo dan da silinir
 */
 
@@ -131,6 +132,8 @@ select isim, maas, sehir from calisanlar2
 where isyeri in (select marka_isim from markalar where marka_id>101);
 
 -- ÖDEV- Ankara’da calisani olan markalarin marka id'lerini ve calisan sayilarini listeleyiniz.
+select marka_id, calisan_sayisi from markalar 
+where marka_isim in (select isyeri from calisanlar2 where sehir='Ankara');
 
 -- AGGREGATE METHOD
 -- calisanlar tablosundan en yuksek maasi listeleyelim
@@ -160,13 +163,20 @@ select * from calisanlar2;
 select marka_id, marka_isim, (select count(sehir) as sehir_sayisi from calisanlar2 where marka_isim=isyeri) from markalar;
 
 -- Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin toplam maaşini listeleyiniz
+create view toplam_maas
+as
 select marka_isim, calisan_sayisi, (select sum(maas) as toplam_maas from calisanlar2 where marka_isim=isyeri) from markalar;
 
+select * from toplam_maas;
 -- Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin maksimum ve minumum maaşini listeleyen bir Sorgu yaziniz.
+-- 1. yol
 select marka_isim, calisan_sayisi, 
 (select max(maas) from calisanlar2 where marka_isim=isyeri) as en_yuksek_maas, 
 (select min(maas) from calisanlar2 where marka_isim=isyeri) as en_dusuk_maas
 from markalar;
+-- 2. yol
+select marka_isim, calisan_sayisi, (select max(maas) as max_maas from calisanlar2 where marka_isim=isyeri),
+(select min(maas) as min_maas from calisanlar2 where marka_isim=isyeri) from markalar;
 
 -- VIEW KULLANIMI 
 -- yaptigimiz sorgulari hafiazaya alir ve tekrar bizden istenen sorgulama yerine view e atadigimiz ismi select komutuyla cagiririz
@@ -180,40 +190,41 @@ from markalar;
 select * from max_min_maas;
 
 -- EXISTS CONDITION
-CREATE TABLE mart
+CREATE TABLE mart1
 (   
 urun_id int, musteri_isim varchar(50), urun_isim varchar(50)
 );
 
-INSERT INTO mart VALUES (10, 'Mark', 'Honda');
-INSERT INTO mart VALUES (20, 'John', 'Toyota');
-INSERT INTO mart VALUES (30, 'Amy', 'Ford');
-INSERT INTO mart VALUES (20, 'Mark', 'Toyota');
-INSERT INTO mart VALUES (10, 'Adam', 'Honda');
-INSERT INTO mart VALUES (40, 'John', 'Hyundai');
+INSERT INTO mart1 VALUES (10, 'Mark', 'Honda');
+INSERT INTO mart1 VALUES (20, 'John', 'Toyota');
+INSERT INTO mart1 VALUES (30, 'Amy', 'Ford');
+INSERT INTO mart1 VALUES (20, 'Mark', 'Toyota');
+INSERT INTO mart1 VALUES (10, 'Adam', 'Honda');
+INSERT INTO mart1 VALUES (40, 'John', 'Hyundai');
 
-CREATE TABLE nisan 
+CREATE TABLE nisan1 
 (   
 urun_id int, musteri_isim varchar(50), urun_isim varchar(50)
 );
 
-INSERT INTO nisan VALUES (10, 'Hasan', 'Honda');
-INSERT INTO nisan VALUES (10, 'Kemal', 'Honda');
-INSERT INTO nisan VALUES (20, 'Ayse', 'Toyota');
-INSERT INTO nisan VALUES (50, 'Yasar', 'Volvo');
-INSERT INTO nisan VALUES (20, 'Mine', 'Toyota');
-INSERT INTO mart VALUES (20, 'Eddie', 'Toyota');
+INSERT INTO nisan1 VALUES (10, 'Hasan', 'Honda');
+INSERT INTO nisan1 VALUES (10, 'Kemal', 'Honda');
+INSERT INTO nisan1 VALUES (20, 'Ayse', 'Toyota');
+INSERT INTO nisan1 VALUES (50, 'Yasar', 'Volvo');
+INSERT INTO nisan1 VALUES (20, 'Mine', 'Toyota');
+INSERT INTO nisan1 VALUES (20, 'Eddie', 'Toyota');
 
-select * from mart;
-select * from nisan;
+select * from mart1;
+select * from nisan1;
 
 --MART VE NİSAN aylarında aynı urun_id ile satılan ürünlerin urun_id’lerini listeleyen ve aynı zamanda bu ürünleri MART ayında alan musteri_isim 'lerini listeleyen bir sorgu yazınız.
-select urun_id, musteri_isim from mart where exists (select urun_id from nisan where mart.urun_id=nisan.urun_id);
+select urun_id, musteri_isim from mart1 where exists (select urun_id from nisan1 where mart1.urun_id=nisan1.urun_id);
 
 --Her iki ayda birden satılan ürünlerin URUN_ISIM'lerini ve bu ürünleri NİSAN ayında satın alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazınız.
-select urun_isim, musteri_isim from nisan where exists (select urun_isim from mart where mart.urun_isim=nisan.urun_isim);
+select urun_isim, musteri_isim from nisan1 where exists (select urun_isim from mart1 where mart1.urun_isim=nisan1.urun_isim);
 
 --ODEV Her iki ayda ortak satilmayan ürünlerin URUN_ISIM'lerini ve  bu ürünleri NİSAN ayında satın alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazınız.
+select musteri_isim, urun_isim from nisan1 where not exists (select urun_isim from mart1 where mart1.urun_isim=nisan1.urun_isim);
 
 -- DML UPDATE
 DROP TABLE if exists tedarikciler;
@@ -233,13 +244,13 @@ CREATE TABLE urunler -- child
 ted_vergino int, urun_id int, urun_isim VARCHAR(50), musteri_isim VARCHAR(50), CONSTRAINT fk_urunler FOREIGN KEY(ted_vergino) REFERENCES tedarikciler(vergi_no) on delete cascade
 );   
 
-INSERT INTO urunler VALUES(101, 1001,'Laptop', 'Ayşe Can');
-INSERT INTO urunler VALUES(102, 1002,'Phone', 'Fatma Aka');
-INSERT INTO urunler VALUES(102, 1003,'TV', 'Ramazan Öz');
-INSERT INTO urunler VALUES(102, 1004,'Laptop', 'Veli Han');
-INSERT INTO urunler VALUES(103, 1005,'Phone', 'Canan Ak');
-INSERT INTO urunler VALUES(104, 1006,'TV', 'Ali Bak');
-INSERT INTO urunler VALUES(104, 1007,'Phone', 'Aslan Yılmaz');
+INSERT INTO urunler VALUES (101, 1001, 'Laptop', 'Ayşe Can');
+INSERT INTO urunler VALUES (102, 1002, 'Phone', 'Fatma Aka');
+INSERT INTO urunler VALUES (102, 1003, 'TV', 'Ramazan Öz');
+INSERT INTO urunler VALUES (102, 1004, 'Laptop', 'Veli Han');
+INSERT INTO urunler VALUES (103, 1005, 'Phone', 'Canan Ak');
+INSERT INTO urunler VALUES (104, 1006, 'TV', 'Ali Bak');
+INSERT INTO urunler VALUES (104, 1007, 'Phone', 'Aslan Yılmaz');
 
 select * from tedarikciler;
 select * from urunler;
@@ -262,13 +273,13 @@ update urunler set urun_id=urun_id+ted_vergino;
 delete from urunler;
 delete from tedarikciler;  
 
-INSERT INTO urunler VALUES(101, 1001,'Laptop', 'Ayşe Can');
-INSERT INTO urunler VALUES(102, 1002,'Phone', 'Fatma Aka');
-INSERT INTO urunler VALUES(102, 1003,'TV', 'Ramazan Öz');
-INSERT INTO urunler VALUES(102, 1004,'Laptop', 'Veli Han');
-INSERT INTO urunler VALUES(103, 1005,'Phone', 'Canan Ak');
-INSERT INTO urunler VALUES(104, 1006,'TV', 'Ali Bak');
-INSERT INTO urunler VALUES(104, 1007,'Phone', 'Aslan Yılmaz');
+INSERT INTO urunler VALUES (101, 1001, 'Laptop', 'Ayşe Can');
+INSERT INTO urunler VALUES (102, 1002, 'Phone', 'Fatma Aka');
+INSERT INTO urunler VALUES (102, 1003, 'TV', 'Ramazan Öz');
+INSERT INTO urunler VALUES (102, 1004, 'Laptop', 'Veli Han');
+INSERT INTO urunler VALUES (103, 1005, 'Phone', 'Canan Ak');
+INSERT INTO urunler VALUES (104, 1006, 'TV', 'Ali Bak');
+INSERT INTO urunler VALUES (104, 1007, 'Phone', 'Aslan Yılmaz');
 
 INSERT INTO tedarikciler VALUES (101, 'IBM', 'Kim Yon');
 INSERT INTO tedarikciler VALUES (102, 'Huawei', 'Çin Li');
