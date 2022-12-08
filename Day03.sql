@@ -93,6 +93,19 @@ select * from musteriler where urun_id between 20 and 40; -- 20 ve 40 dahil
 -- NOT BETWEEN CONDITION
 select * from musteriler where urun_id not between 20 and 40;
 
+-- Practice 6: 
+-- id'si 10 ile 30 arasında olan tum verileri listeleyiniz
+select * from musteriler where urun_id between 10 and 30;
+
+-- D ile Y arasındaki musteri isimlerini listeleyiniz
+select musteri_isim from musteriler where musteri_isim between 'D' and 'Y';
+
+-- D ile Y arasında olmayan musterilerin tum bilgilerini listeleyiniz
+select * from musteriler where musteri_isim not between 'D' and 'Y';
+
+-- Musteri isim Amy ve urun ismi Palm olan personeli listeleyiniz
+select * from musteriler where urun_isim='Palm' and musteri_isim='Amy';
+
 -- SUBQUERIES
 DROP TABLE if exists calisanlar2;
 CREATE TABLE calisanlar2
