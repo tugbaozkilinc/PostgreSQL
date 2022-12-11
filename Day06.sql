@@ -52,7 +52,7 @@ on sirketler.sirket_id=siparisler.sirket_id;
 -- NOT :
 -- 1) FULL Join’de iki tabloda var olan tum record’lar gosterilir.
 -- 2) Bir tabloda olup otekinde olmayan data’lar bos kalir
-*/
+
 select sirketler.sirket_isim, siparisler.siparis_id, siparisler.siparis_tarihi
 from sirketler full join siparisler
 on sirketler.sirket_id=siparisler.sirket_id;
@@ -71,16 +71,12 @@ INSERT INTO personel5 VALUES(4, 'Fatma Can', 'CEO', 5);
 select * from personel5;
 
 -- Her personelin yanina yonetici ismini yazdiran bir tablo olusturun
-select isim from personel5
 select p.isim as personel_isim, y.isim as yonetici_isim from personel5 p inner join personel5 y on p.yonetici_id=y.id;
 -- ayni iki hayali isim verilemiyor
 
 -- LIKE CONDITION
-/*
-	LIKE condition WHERE ile kullanilarak SELECT, INSERT, UPDATE, veya DELETE
-	statement ile calisan wildcards’a(özel sembol) izin verir.. Ve bize pattern matching yapma
-	imkani verir.
-*/
+-- LIKE condition WHERE ile kullanilarak SELECT, INSERT, UPDATE, veya DELETE statement ile calisan wildcards’a(özel sembol) izin verir.. 
+-- Ve bize pattern matching yapma imkani verir.
 
 CREATE TABLE musteriler1  
 (
@@ -93,43 +89,37 @@ INSERT INTO musteriler1 (id, isim, gelir) VALUES (1003, 'Feride', 71000);
 INSERT INTO musteriler1 (id, isim, gelir) VALUES (1004, 'Fatma', 42000); 
 INSERT INTO musteriler1 (id, isim, gelir) VALUES (1005, 'Kasim', 44000);
 INSERT INTO musteriler1 (id, isim, gelir) VALUES (1006, 'ahmet', 82000); 
+INSERT INTO musteriler1 (id, isim, gelir) VALUES (1007, 'erhan', 92000); 
 
 select * from musteriler1;
 
--- 1) % => 0 veya birden fazla karakter belirtir
--- SORU : Ismi A harfi ile baslayan musterilerin tum bilgilerini yazdiran QUERY yazin
+-- SORU 1: Ismi A harfi ile baslayan musterilerin tum bilgilerini yazdiran QUERY yazin
 select * from musteriler1 where isim like 'A%';
 select * from musteriler1 where isim ilike 'A%';
 select * from musteriler1 where isim ~~* 'A%';
---%A: Son harfin 'A' olduğu char.
---A%: İlk harfin 'A' olduğu char.
---%A%: Ortasında A'ya sahip olan char.
-/*
-LIKE kullanımında büyük küçük harf gözetmeksizin sonuç almak istersek ILIKE kullanırız
-LIKE yerine ~~ sembollerini kullanabiliriz. Eğer büyük küçük harf gözetmeksizin kullanmak istersek ~~* sembollerini kullanırız
-*/
--- SORU : Ismi e harfi ile biten musterilerin isimlerini ve gelir’lerini yazdiran QUERY yazin
+select * from musteriler1 where isim ~~ 'A%';
+-- %: 0 veya birden fazla karakter belirtir
+-- LIKE kullanımında büyük küçük harf gözetmeksizin sonuç almak istersek ILIKE kullanırız
+-- LIKE yerine ~~ sembollerini kullanabiliriz. Eğer büyük küçük harf gözetmeksizin kullanmak istersek ~~* sembollerini kullanırız
+
+-- SORU 2: Ismi e harfi ile biten musterilerin isimlerini ve gelir’lerini yazdiran QUERY yazin
 select isim, gelir from musteriler1 where isim like '%e';
 
--- Isminin icinde er olan musterilerin isimlerini ve gelir’lerini yazdiran QUERY yazin
+-- SORU 3: Isminin icinde er olan musterilerin isimlerini ve gelir’lerini yazdiran QUERY yazin
 select isim, gelir from musteriler1 where isim like '%er%';
 
--- 2) _=> sadece bir karakteri gosterir.
--- SORU : Ismi 5 harfli olup son 4 harfi atma olan musterilerin tum bilgilerini yazdiran QUERY yazin
+-- _=> sadece bir karakteri gosterir.
+-- SORU 4: Ismi 5 harfli olup son 4 harfi atma olan musterilerin tum bilgilerini yazdiran QUERY yazin
 select * from musteriler1 where isim ~~'_atma';
 
--- Ikinci harfi a olan musterilerin tum bilgilerini yazdiran QUERY yazin
+-- SORU 5: Ikinci harfi a olan musterilerin tum bilgilerini yazdiran QUERY yazin
 select * from musteriler1 where isim like '_a%';
 
--- Ucuncu harfi s olan musterilerin tum bilgilerini yazdiran QUERY yazin
+-- SORU 6: Ucuncu harfi s olan musterilerin tum bilgilerini yazdiran QUERY yazin
 select * from musteriler1 where isim ~~ '__s%';
 
-/*
-	3) REGEXP_LIKE =>Daha karmaşık sorgular için herhangi bir kod, metin icerisinde istenilen yazi
-	veya kod parcasinin aranip bulunmasini saglayan kendine ait soz dizimi olan bir yapidir.
-	(REGEXP_LIKE) PostgreSQL de ‘’ ~ ‘’ karekteri ile kullanilir
-*/
-
+-- REGEXP_LIKE =>Daha karmaşık sorgular için herhangi bir kod, metin icerisinde istenilen yazi veya kod parcasinin aranip bulunmasini saglayan
+-- kendine ait soz dizimi olan bir yapidir. (REGEXP_LIKE) PostgreSQL de ‘’ ~ ‘’ karekteri ile kullanilir
 CREATE TABLE kelimeler 
 (
 id int UNIQUE, kelime varchar(50) NOT NULL, Harf_sayisi int
@@ -149,17 +139,24 @@ select * from kelimeler;
 
 -- SORU : Ilk harfi h,son harfi t olup 2.harfi a veya i olan 3 harfli kelimelerin tum bilgilerini yazdiran QUERY yazin
 select * from kelimeler where kelime ~* 'h[ai]t';
+select * from kelimeler where kelime ~ 'h[ai]t';
 
 -- SORU : Ilk harfi h,son harfi t olup 2.harfi a ile k arasinda olan 3 harfli kelimelerin  tum bilgilerini  yazdiran QUERY yazin
-select * from kelimeler where kelime
+select * from kelimeler where kelime ~* 'h[a-k]t';
 
 -- SORU : a veya s ile baslayan kelimelerin tum bilgilerini yazdiran QUERY yazin
-select * from kelimeler where kelime ~* '^[as]'
+select * from kelimeler where kelime ~* '^[as]';
 
-select * from kelimeler where kelime * ''
+-- SORU: m veya f ile biten kelimelerin tum bilgilerini yazdiran query yaziniz.
+select * from kelimeler where kelime ~* '[mf]$';
 
-
-
+-- UPPER-LOWER-INITCAP
+-- Kelimeler tablosundaki kelime sutunundaki verileri once hepsi buyuk harf, sonra kucuk harf ve ilk harfleri buyuk harf olacak sekilde yazdırınız.
+select upper(kelime) as kelime from kelimeler;
+select lower(kelime) from kelimeler;
+select initcap(kelime) from kelimeler;
+--
+select lower(title), upper(isim) from personel5;
 
 
 

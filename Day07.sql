@@ -57,7 +57,7 @@ select * from maas order by maas desc limit 1;
 -- En yuksek ikinci maasi listeleyiniz
 select * from maas order by maas desc limit 1 offset 1;
 select * from maas order by maas desc offset 1 limit 1;
-select * from maas order by maas desc offset 1 row fetch next 1 row only;
+select * from maas order by maas desc offset(1) row fetch next(1) row only;
 
 -- Maas tablosundan en dusuk dorduncu maasi listeleyiniz
 select * from maas order by maas offset 3 limit 1;
