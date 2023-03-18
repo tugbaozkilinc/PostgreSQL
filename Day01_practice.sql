@@ -1,10 +1,7 @@
-drop table if exists ogrenciler;
+drop table if exists ogrenciler; --DDL
 create table ogrenciler
 (
-id int,
-isim varchar(40),
-adres varchar(100),
-sinav_notu int
+id int, isim varchar(40), adres varchar(100), sinav_notu int
 );
 
 --INSERT: Veritabanına yeni veri ekler.
@@ -15,7 +12,6 @@ insert into ogrenciler values(123, 'Derya Soylu', 'Istanbul', 95);
 insert into ogrenciler values(124, 'Yavuz Bal', 'Ankara', 85);
 insert into ogrenciler values(125, 'Emre Gül', 'Hatay', 90);
 insert into ogrenciler values(126, 'Harun Reşit', 'Isparta', 100);
-
 select * from ogrenciler;
 
 --SORU 1: ogrenciler tablosundaki id ve isim sutununu getiriniz
@@ -48,14 +44,15 @@ delete from ogrenciler where sinav_notu=75;
 delete from ogrenciler where adres='Trabzon';
 
 --SORU 10: ismi Derya Soylu veya Yavuz Bal olan satırları siliniz
-delete from ogrenciler where isim in ('Derya Soylu', 'Yavuz Bal');
+delete from ogrenciler where isim in('Derya Soylu', 'Yavuz Bal');
 
 --SORU 11: sınav notu 100 den küçük olan satırları siliniz
 delete from ogrenciler where sinav_notu<100;
 
 --SORU 12: Tablodaki tüm satırları siliniz
-truncate table ogrenciler;
+truncate table ogrenciler; --!verileri siler tabloyu degil
 delete from ogrenciler;
+select * from ogrenciler;
 
 --SORU 13: memurlar isminde bir tablo oluşturunuz. id, isim, maas sutunları olsun. id sutununun data tipi int olsun. PRİMARY KEY kısıtlaması olsun.
 --isim sutununun data tipi varchar(30) olsun. UNIQUE kısıtlaması olsun. maas sutununun data tipi int olsun. maas 5000 buyuk olsun. NOT NULL kısıtlaması olsun.
@@ -65,7 +62,6 @@ create table memurlar
 (
 id int primary key, isim varchar(30) unique, maas int check(maas>5000) not null 
 );
-
 select * from memurlar;
 
 --SORU 14: insanlar isminde bir tablo oluşturunuz. isim, soyisim sutunları olsun. isim sutununun data tipi int olsun. PRİMARY KEY kısıtlaması olsun. Kısıtlamanın ismi pr_ks olsun
@@ -75,39 +71,6 @@ create table insanlar
 (
 isim int, soyisim varchar(30), constraint pr_ks primary key(isim), constraint uni_ks unique(soyisim)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

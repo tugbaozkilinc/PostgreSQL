@@ -10,7 +10,6 @@ insert into arac values(103, 'Wolkswagen', 'Golf', 350000, 20000, 'Manuel');
 insert into arac values(104, 'Ford', 'Mustang', 750000, 5000, 'Otomatik');
 insert into arac values(105, 'Porsche', 'Panamera', 850000, 5000, 'Otomatik');
 insert into arac values(106, 'Bugatti', 'Veyron', 950000, 5000, 'Otomatik');
-
 select * from arac;
 
 --SORU 1: arac tablosundaki en yüksek fiyat'ı listele
@@ -39,7 +38,6 @@ INSERT INTO meslekler VALUES(5, 'Mine', 'Yasa', 'Teknisyen', '13000');
 INSERT INTO meslekler VALUES(6, 'Veli', 'Yilmaz', 'Hemşire', '12000');
 INSERT INTO meslekler VALUES(7, 'Ali', 'Can', 'Marangoz', '10000' );
 INSERT INTO meslekler VALUES(8, 'Veli', 'Cem', 'Tekniker', '14000');
-
 select * from meslekler;
 
 --SORU 1: meslekler tablosunu isim'e göre sıralayarak sorgulayınız.
@@ -51,7 +49,7 @@ select * from meslekler order by maas desc;
 --SORU 3: meslekler tablosunda isim'i 'Ali' olanları, maas'a göre büyükten küçüge sıralayarak sorgulayınız
 select * from meslekler where isim='Ali' order by maas desc;
 
---SORU 4: meslekler tablosunda soyisim 'i 'Bulut' olanları, maas sıralı olarak sorgulayınız.
+--SORU 4: meslekler tablosunda soyisim'i 'Bulut' olanları, maas sıralı olarak sorgulayınız.
 select * from meslekler where soyisim='Bulut' order by maas; 
 
 --SORU 5: meslekler tablosunda id degeri 5 den büyük olan, ilk 2 veriyi listeleyiniz
@@ -89,7 +87,6 @@ insert into aktorler values(2, 'Necati Sasmaz', 2);
 insert into aktorler values(3, 'Gupse Ozay', 3);
 insert into aktorler values(4, 'Engin Gunaydin', 4);
 insert into aktorler values(5, 'Cem Yilmaz', 5);
-
 select * from aktorler;
 select * from filmler;
 
@@ -128,11 +125,9 @@ insert into developer_dersler values(105, 'SDLC', 10);
 insert into developer_dersler values(106, 'LAMDA', 12);
 insert into developer_dersler values(107, 'Spring Framework', 20);
 insert into developer_dersler values(108, 'Micro Services', 12);
-
 select * from developer_dersler;
 select * from qa_dersler;
 
---SORU 4: join kullanarak qa_dersleri ve developer_dersleri benzersiz sorgula
 
 
 

@@ -19,7 +19,6 @@ INSERT INTO siparisler VALUES(22, 102, '2020-04-18');
 INSERT INTO siparisler VALUES(33, 103, '2020-04-19'); 
 INSERT INTO siparisler VALUES(44, 104, '2020-04-20'); 
 INSERT INTO siparisler VALUES(55,  105, '2020-04-21');
-
 select * from sirketler;
 select * from siparisler;
 
@@ -30,8 +29,8 @@ on sirketler.sirket_id=siparisler.sirket_id;
 
 --NOT :
 --1) Select’ten sonra tabloda gormek istediginiz sutunlari yazarken Tablo_adi.field_adi seklinde yazin
---2) From’dan sonra tablo ismi yazarken 1.Tablo ismi + INNER JOIN + 2.Tablo ismi yazmaliyiz
---3) Join’i hangi kurala gore yapacaginizi belirtmelisiniz. Bunun icin ON+ kuralimiz yazilmali
+--2) From’dan sonra tablo ismi yazarken 1.Tablo ismi + INNER JOIN + 2.Tablo ismi yazmaliyiz(tabloların sırası degisebilir)
+--3) Join’i hangi kurala gore yapacaginizi belirtmelisiniz. Bunun icin ON condition yazilmali
  
 --LEFT JOIN
 --SORU 2: Iki Tabloda sirket_id’si ayni olanlarin sirket_ismi, siparis_id ve siparis_tarihleri ile yeni bir tablo olusturun
@@ -67,15 +66,14 @@ INSERT INTO personel5 VALUES(1, 'Ali Can', 'SDET', 2);
 INSERT INTO personel5 VALUES(2, 'Veli Cem', 'QA', 3);
 INSERT INTO personel5 VALUES(3, 'Ayse Gul', 'QA Lead', 4); 
 INSERT INTO personel5 VALUES(4, 'Fatma Can', 'CEO', 5);
-
 select * from personel5;
 
 --Her personelin yanina yonetici ismini yazdiran bir tablo olusturun
 select p.isim as personel_isim, y.isim as yonetici_isim from personel5 p inner join personel5 y on p.yonetici_id=y.id;
---ayni iki hayali isim verilemiyor
+--Note: ayni iki hayali isim verilemiyor
 
 --LIKE CONDITION
---LIKE condition WHERE ile kullanilarak SELECT, INSERT, UPDATE, veya DELETE statement ile calisan wildcards’a(özel sembol) izin verir.. 
+--LIKE condition WHERE ile kullanilarak SELECT, INSERT, UPDATE, veya DELETE(DML) statement ile calisan wildcards’a(özel sembol) izin verir.. 
 --Ve bize pattern matching yapma imkani verir.
 
 CREATE TABLE musteriler1  
@@ -90,7 +88,6 @@ INSERT INTO musteriler1(id, isim, gelir) VALUES(1004, 'Fatma', 42000);
 INSERT INTO musteriler1(id, isim, gelir) VALUES(1005, 'Kasim', 44000);
 INSERT INTO musteriler1(id, isim, gelir) VALUES(1006, 'ahmet', 82000); 
 INSERT INTO musteriler1(id, isim, gelir) VALUES(1007, 'erhan', 92000); 
-
 select * from musteriler1;
 
 --SORU 1: Ismi A harfi ile baslayan musterilerin tum bilgilerini yazdiran QUERY yazin
@@ -98,7 +95,7 @@ select * from musteriler1 where isim like 'A%';
 select * from musteriler1 where isim ilike 'A%';
 select * from musteriler1 where isim ~~* 'A%';
 select * from musteriler1 where isim ~~ 'A%';
---%: 0 veya birden fazla karakter belirtir
+--%: 0 veya daha fazla karakter belirtir
 --LIKE kullanımında büyük küçük harf gözetmeksizin sonuç almak istersek ILIKE kullanırız
 --LIKE yerine ~~ sembollerini kullanabiliriz. Eğer büyük küçük harf gözetmeksizin kullanmak istersek ILIKE yerine de ~~* sembollerini kullanırız
 
@@ -119,7 +116,7 @@ select * from musteriler1 where isim like '_a%';
 select * from musteriler1 where isim ~~ '__s%';
 
 --REGEXP_LIKE =>Daha karmaşık sorgular için herhangi bir kod, metin icerisinde istenilen yazi veya kod parcasinin aranip bulunmasini saglayan
---kendine ait soz dizimi olan bir yapidir. (REGEXP_LIKE) PostgreSQL de ‘’ ~ ‘’ karekteri ile kullanilir
+--kendine ait soz dizimi olan bir yapidir. (REGEXP_LIKE) PostgreSQL de  ~  karekteri ile kullanilir
 CREATE TABLE kelimeler 
 (
 id int UNIQUE, kelime varchar(50) NOT NULL, Harf_sayisi int
@@ -134,11 +131,10 @@ INSERT INTO kelimeler VALUES(1005, 'adem', 4);
 INSERT INTO kelimeler VALUES(1006, 'selim', 5); 
 INSERT INTO kelimeler VALUES(1007, 'yusuf', 5);
 INSERT INTO kelimeler VALUES(1009, 'hAt', 5); 
-
 select * from kelimeler;
 
 --SORU: Ilk harfi h, son harfi t olup 2.harfi a veya i olan 3 harfli kelimelerin tum bilgilerini yazdiran QUERY yazin
-select * from kelimeler where kelime ~* 'h[ai]t';
+select * from kelimeler where kelime ~* 'h[ai]t'; --buyuk kucuk harf farketmeksizin
 select * from kelimeler where kelime ~ 'h[ai]t';
 
 --SORU: Ilk harfi h, son harfi t olup 2.harfi a ile k arasinda olan 3 harfli kelimelerin tum bilgilerini yazdiran QUERY yazin
@@ -157,20 +153,6 @@ select lower(kelime) from kelimeler;
 select initcap(kelime) from kelimeler;
 --
 select lower(title), upper(isim) from personel5;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

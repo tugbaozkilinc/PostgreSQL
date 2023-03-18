@@ -26,7 +26,6 @@ INSERT INTO isciler VALUES(456789012, 'Eddie Murphy', 'Virginia', 1000, 'GOOGLE'
 INSERT INTO isciler VALUES(567890123, 'Eddie Murphy', 'Texas', 7000, 'MICROSOFT'); 
 INSERT INTO isciler VALUES(456789012, 'Brad Pitt', 'Texas', 1500, 'GOOGLE');
 INSERT INTO isciler VALUES(123456710, 'Mark Stone', 'Pennsylvania', 2500, 'IBM');
-
 select * from isciler;
 select * from personel;
 
@@ -40,7 +39,8 @@ intersect
 select id, isim from isciler;
 
 --3) Personel tablosunda kac farkli sehirden personel var?
-select count(distinct(sehir)) as farkli_sehir_sayisi from personel;
+select count(distinct(sehir)) as farkli_sehir_sayisi from personel; --6
+select count(sehir) as farkli_sehir_sayisi from personel; --7
 
 --4) Personel tablosunda id’si cift sayi olan personel’in tum bilgilerini listeleyen Query yaziniz
 select * from personel where mod(id, 2)=0; 

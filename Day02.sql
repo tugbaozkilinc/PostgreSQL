@@ -4,7 +4,6 @@ ogrenci_no char(7), isim varchar(20), soyisim varchar(25), not_ort real, kayit_t
 );
 
 create table notlar as select isim, not_ort from ogrenciler5;
-
 select * from notlar;
 select * from ogrenciler5;
 
@@ -13,7 +12,6 @@ insert into notlar values('Mete Han', 95.0);
 insert into notlar values('Ali Kemal', 85.0);
 insert into notlar values('Secil Cicek', 75.0);
 insert into notlar values('Hakan Tan', 80.0);
-
 select isim from notlar;
 
 create table talebeler
@@ -33,14 +31,12 @@ create table ogrenciler6
 (
 ogrenci_no char(7) unique, isim varchar(20) not null, soyisim varchar(25), not_ort real, kayit_tarih date
 );
-
 select * from ogrenciler6;
 
 create table ogrenciler7
 (
 ogrenci_no char(7) unique, isim varchar(20) not null, soyisim varchar(25), not_ort real, kayit_tarih date
 );
-
 select * from ogrenciler7;
 
 insert into ogrenciler7 values('1234567', 'Osman', 'Evren', 75.0, now());
@@ -67,11 +63,8 @@ ogrenci_no char(7), isim varchar(20), soyisim varchar(25), not_ort real, kayit_t
 );
 
 --FOREIGN KEY
-/*
-“tedarikciler3” isimli bir tablo olusturun. Tabloda “tedarikci_id”, “tedarikci_ismi”, “iletisim_isim” field’lari olsun ve “tedarikci_id” yi Primary Key yapin.
-“urunler” isminde baska bir tablo olusturun “tedarikci_id” ve “urun_id” field’lari olsun ve
-“tedarikci_id” yi Foreign Key yapin.
-*/
+--“tedarikciler3” isimli bir tablo olusturun. Tabloda “tedarikci_id”, “tedarikci_ismi”, “iletisim_isim” field’lari olsun ve “tedarikci_id” yi Primary Key yapin.
+--“urunler” isminde baska bir tablo olusturun “tedarikci_id” ve “urun_id” field’lari olsun ve “tedarikci_id” yi Foreign Key yapin.
 create table tedarikciler3
 (
 tedarikci_id char(5) primary key, tedarikci_ismi varchar(20), iletisim_isim varchar(20)
@@ -82,14 +75,11 @@ create table urunler
 tedarikci_id char(5), urun_id char(5),
 foreign key(tedarikci_id) references tedarikciler3(tedarikci_id)
 );
-
 select * from tedarikciler3;
 select * from urunler;
 
-/*
-“calisanlar” isimli bir Tablo olusturun. Icinde “id”, “isim”, “maas”, “ise_baslama” field’lari olsun. “id” yi Primary Key yapin, “isim” i Unique, “maas” i Not Null yapın.
-“adresler” isminde baska bir tablo olusturun.Icinde “adres_id”, “sokak”, “cadde” ve “sehir” fieldlari olsun. “adres_id” field‘i ile Foreign Key oluşturun.
-*/
+--“calisanlar” isimli bir Tablo olusturun. Icinde “id”, “isim”, “maas”, “ise_baslama” field’lari olsun. “id” yi Primary Key yapin, “isim” i Unique, “maas” i Not Null yapın.
+--“adresler” isminde baska bir tablo olusturun.Icinde “adres_id”, “sokak”, “cadde” ve “sehir” fieldlari olsun. “adres_id” field‘i ile Foreign Key oluşturun.
 create table calisanlar
 (
 id varchar(15) PRIMARY KEY, isim varchar(30) UNIQUE, maas int NOT NULL, ise_baslama date
@@ -109,7 +99,7 @@ INSERT INTO calisanlar VALUES('10006', 'Canan Yaş', NULL, '2019-04-12'); --not 
 INSERT INTO calisanlar VALUES('10003', 'CAN', 5000, '2018-04-14');
 INSERT INTO calisanlar VALUES('10007', 'CAN', 5000, '2018-04-14'); --unique constraint, bu yuzden eklenemez
 INSERT INTO calisanlar VALUES('10009', 'cem', '', '2018-04-14'); --syntax hatasi, bu yuzden eklenemez
-INSERT INTO calisanlar VALUES('', 'osman', 2000, '2018-04-14'); --primary key hiclik kabul eder
+INSERT INTO calisanlar VALUES('', 'osman', 2000, '2018-04-14'); --primary key hiclik kabul eder(ikinci hicligi kabul etmez)
 INSERT INTO calisanlar VALUES('', 'osman can', 2000, '2018-04-14'); --primary key duplicate sorunu, bu yuzden eklenemez
 INSERT INTO calisanlar VALUES('10002', 'ayse Yılmaz', 12000, '2018-04-14'); --primary key duplicate sorunu, bu yuzden eklenemez
 INSERT INTO calisanlar VALUES(null, 'filiz ' ,12000, '2018-04-14'); --primary key null kabul etmez, bu yuzden eklenemez
@@ -121,11 +111,10 @@ INSERT INTO adresler VALUES('10002', 'Ağa Sok', '30.Cad.', 'Antep');
 --Parent tabloda olmayan id ile child a ekleme yapamayiz
 INSERT INTO adresler VALUES('10012', 'Ağa Sok', '30.Cad.', 'Antep');
 
---FK'ye null değeri atanabilir.
+--FK'ye null değeri atanabilir, FK tekrarlari da kabul eder(PK birden fazla field in combinasyonu ile olusturulabildigi gibi bir tabloda birden fazla FK de olabilir.)
 INSERT INTO adresler VALUES(NULL, 'Ağa Sok', '30.Cad.', 'Antep');
 INSERT INTO adresler VALUES(NULL, 'Ağa Sok', '30.Cad.', 'Maraş');
 INSERT INTO adresler VALUES('', 'Ağa Sok', '30.Cad.', 'Maraş');
-
 select * from calisanlar;
 select * from adresler;
 
@@ -163,7 +152,8 @@ select * from calisanlar WHERE maas=5000;
 --DML DELETE
 delete from calisanlar; --eger parent table baska bir child table ile iliskili ise once child table silinmelidir
 delete from adresler;
-select * from adresler;
+truncate table calisanlar;
+select * from calisanlar;
 
 INSERT INTO adresler VALUES(NULL, 'Ağa Sok', '30.Cad.', 'Antep');
 INSERT INTO adresler VALUES(NULL, 'Ağa Sok', '30.Cad.', 'Maraş');
@@ -175,12 +165,10 @@ select * from adresler;
 --adresler tablosundan sehri Antep olan verileri silelim
 delete from adresler where sehir='Antep';
 
---ismi Nesibe Yilmaz veya Mustafa Bak olan kayıtları silelim.
 CREATE TABLE ogrenciler3
 (
 id int, isim VARCHAR(50), veli_isim VARCHAR(50), yazili_notu int
 );
-
 select * from ogrenciler3;
 
 INSERT INTO ogrenciler3 VALUES(123, 'Ali Can', 'Hasan', 75);
@@ -203,5 +191,5 @@ delete from ogrenciler3 where isim='Ali Can' and id=123;
 delete from ogrenciler3 where id>124;
 
 -- id si 121, 125 veya 126 olanlari silelim
-delete from ogrenciler3 where id=121 or id=125 or id=126;
+delete from ogrenciler3 where id in(121, 125, 126);
 

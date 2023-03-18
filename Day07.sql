@@ -1,5 +1,4 @@
 --DISTINCT çağrılan terimlerden tekrarlı olanların sadece birincisini alır.
-
 CREATE TABLE musteri_urun 
 (
 urun_id int, musteri_isim varchar(50), urun_isim varchar(50) 
@@ -13,18 +12,18 @@ INSERT INTO musteri_urun VALUES(20, 'Ali', 'Elma');
 INSERT INTO musteri_urun VALUES(10, 'Adem', 'Portakal'); 
 INSERT INTO musteri_urun VALUES(40, 'Veli', 'Kaysi'); 
 INSERT INTO musteri_urun VALUES(20, 'Elif', 'Elma');
-
 select * from musteri_urun;
 
 --musteri_urun tablosundan urun isimlerini tekrarsız listeleyiniz(gruplayınız)
 select urun_isim from musteri_urun group by urun_isim; --group by ile cozumu
 select distinct(urun_isim) from musteri_urun; --distinct ile cozumu
+select distinct urun_isim from musteri_urun;
 
 --Tabloda kac farkli meyve vardir ?
 select urun_isim, count(urun_isim) from musteri_urun group by urun_isim;
 select urun_isim, count(distinct urun_isim) from musteri_urun group by urun_isim;
 
---FETCH NEXT (SAYI) ROW ONLY- OFFSET- LIMIT
+--FETCH NEXT(SAYI) ROW ONLY/OFFSET(SAYI) ROW - LIMIT/OFFSET
 --Tabloyu urun_id ye gore siralayiniz, musteri urun tablosundan ilk 3 kaydi listeleyin
 select * from musteri_urun order by urun_id fetch next(3) row only;
 select * from musteri_urun order by urun_id limit(3);
@@ -48,7 +47,6 @@ INSERT INTO maas VALUES(20, 'Ali', 6500);
 INSERT INTO maas VALUES(10, 'Adem', 8000); 
 INSERT INTO maas VALUES(40, 'Veli', 8500); 
 INSERT INTO maas VALUES(20, 'Elif', 5500);
-
 select * from maas;
 
 -- En yuksek maası alan musteriyi listeleyiniz
@@ -64,10 +62,9 @@ select * from maas order by maas offset 3 limit 1;
 
 --ALTER TABLE statement tabloda add, Type(modify)/Set, Rename veya drop columns islemleri icin kullanilir.
 --ALTER TABLE statement tablolari yeniden isimlendirmek icin de kullanilir.
-
 CREATE TABLE personel 
 (
-id int, isim varchar(50), sehir varchar(50), maas int, sirket varchar(20), CONSTRAINT personel_pk PRIMARY KEY (id)
+id int, isim varchar(50), sehir varchar(50), maas int, sirket varchar(20), CONSTRAINT personel_pk PRIMARY KEY(id)
 );
 
 INSERT INTO personel VALUES(123456789, 'Ali Yilmaz', 'Istanbul', 5500, 'Honda');  
@@ -77,12 +74,11 @@ INSERT INTO personel VALUES(456789012, 'Mehmet Ozturk', 'Izmir', 6000, 'Ford');
 INSERT INTO personel VALUES(567890123, 'Mehmet Ozturk', 'Ankara', 7000, 'Tofas');  
 INSERT INTO personel VALUES(456715012, 'Veli Sahin', 'Ankara', 4500, 'Ford');  
 INSERT INTO personel VALUES(123456710, 'Hatice Sahin', 'Bursa', 4500, 'Honda');
-
 select * from personel;
 
 --1) ADD default deger ile tabloya bir field ekleme
-ALTER TABLE personel add zipcode varchar(30);
-ALTER TABLE personel ADD adres varchar(50) DEFAULT 'Turkiye' --DEFAULT yazarsak oluşturduğumuz sütüna belirttiğimiz veriyi tüm satırlara girer
+ALTER TABLE personel add column zipcode varchar(30);
+ALTER TABLE personel ADD adres varchar(50) DEFAULT 'Turkiye' --DEFAULT yazarsak oluşturduğumuz sütunda belirttiğimiz veriyi tüm satırlara girer
 
 --2) DROP tablodan sutun silme
 alter table personel drop column zipcode;
@@ -125,28 +121,6 @@ COMMIT;
 select * from ogrenciler2; 
 delete from ogrenciler2;
 drop table ogrenciler2;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

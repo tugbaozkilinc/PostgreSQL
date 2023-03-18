@@ -11,7 +11,6 @@ INSERT INTO personel VALUES(456789012, 'Mehmet Ozturk', 'Izmir', 6000, 'Ford');
 INSERT INTO personel VALUES(567890123, 'Mehmet Ozturk', 'Ankara', 7000, 'Tofas');  
 INSERT INTO personel VALUES(456789012, 'Veli Sahin', 'Ankara', 4500, 'Ford');  
 INSERT INTO personel VALUES(123456710, 'Hatice Sahin', 'Bursa', 4500, 'Honda');
-
 SELECT * from personel;
 delete from personel;
 
@@ -23,10 +22,10 @@ select isim from personel group by isim;
 
 --Sirketlere gore maasi 5000 liradan fazla olan personel sayisini bulunuz.
 select sirket, count(*) as calisan_sayisi from personel where maas>5000 group by sirket;
-
 select * from personel;
+
 --HAVING KULLANIMI 
---yalnızca group by komutu ile kullanılır eger gruplamadan sonra bir şart varsa having komutu kullanilir.
+--yalnızca group by komutu ile kullanılır eger gruplamadan sonra bir şart varsa(aggregate method icin) having komutu kullanilir.
 --Her sirketin MIN maaslarini eger 4000’den buyukse goster
 select sirket, min(maas) as en_dusuk_maas from personel group by sirket having min(maas)>4000;
 
@@ -79,7 +78,6 @@ INSERT INTO personel_bilgi VALUES(456789012, '5411452659', 3);
 INSERT INTO personel_bilgi VALUES(567890123, '5551253698', 2);
 INSERT INTO personel_bilgi VALUES(456789012, '5524578574', 2);
 INSERT INTO personel_bilgi VALUES(123456710, '5537488585', 1);
-
 select * from personel1;
 select * from personel_bilgi;
 
@@ -97,10 +95,7 @@ select isim, maas from personel1 where maas<5000;
 select isim, maas from personel1 where maas<5000
 union all
 select isim, maas from personel1 where maas<5000;
---Union tekrarli verileri teke dusurur ve bize o sekilde sonuc verir Union All ise tekrarli verilerle birlikte tum sorgulari getirir.
-
-select * from personel_bilgi;
-select * from personel1;
+--Note: Union tekrarli verileri teke dusurur ve bize o sekilde sonuc verir Union All ise tekrarli verilerle birlikte tum sorgulari getirir.
 
 --INTERSECT OPERATOR
 --Personel tablosundan Istanbul veya Ankara’da calisanlarin id’lerini yazdir. Personel_bilgi tablosundan 2 veya 3 cocugu olanlarin id lerini yazdirin
@@ -117,9 +112,14 @@ select isim from personel1 where sirket='Tofas';
 
 --EXCEPT OPERATOR
 --5000’den az maas alip Honda’da calismayanlari yazdirin
-select isim, sirket from personel where maas<5000
+select isim, sirket from personel1 where maas<5000
 except
-select isim, sirket from personel where sirket='Honda';
+select isim, sirket from personel1 where sirket='Honda';
+
+
+
+
+
 
 
 

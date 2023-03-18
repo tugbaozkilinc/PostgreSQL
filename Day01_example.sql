@@ -13,7 +13,7 @@ select tedarikci_ismi from tedarikci_ziyaret;
 
 insert into tedarikci_ziyaret values('Ayse Nur', '2022-12-23');
 insert into tedarikci_ziyaret values('Omer Faruk', '2022-02-23');
-insert into tedarikciler(tedarikci_id, tedarikci_adres) values ('3456789', '2022-06-25');
+insert into tedarikciler(tedarikci_id, tedarikci_adres) values('3456789', '2022-06-25');
 
 select * from tedarikciler;
 select * from tedarikci_ziyaret;

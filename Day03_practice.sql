@@ -8,11 +8,9 @@ INSERT INTO toptancilar1 VALUES(202, 'Huawei', 'Çetin Hoş');
 INSERT INTO toptancilar1 VALUES(203, 'Erikson', 'Mehmet Gör');
 INSERT INTO toptancilar1 VALUES(204, 'Apple', 'Adem Coş');
 
-select * from toptancilar1;
-
 CREATE TABLE malzemeler1   
 (
-ted_vergino int, malzeme_id int, malzeme_isim VARCHAR(20), musteri_isim VARCHAR(25), CONSTRAINT fk FOREIGN KEY(ted_vergino) REFERENCES toptancilar(vergi_no) on delete cascade
+ted_vergino int, malzeme_id int, malzeme_isim VARCHAR(20), musteri_isim VARCHAR(25), CONSTRAINT fk FOREIGN KEY(ted_vergino) REFERENCES toptancilar1(vergi_no) on delete cascade
 );
 
 INSERT INTO malzemeler1 VALUES(201, 1001, 'Laptop', 'Aslı Can');
@@ -22,7 +20,6 @@ INSERT INTO malzemeler1 VALUES(202, 1004, 'Laptop', 'Veli Tan');
 INSERT INTO malzemeler1 VALUES(203, 1005, 'Telefon', 'Cemile Al');
 INSERT INTO malzemeler1 VALUES(204, 1006, 'TV', 'Ali Can');
 INSERT INTO malzemeler1 VALUES(204, 1007, 'Telefon', 'Ahmet Yaman');
-
 SELECT * FROM malzemeler1;
 SELECT * FROM toptancilar1;
 
@@ -58,11 +55,9 @@ INSERT INTO toptancilar2 VALUES(202, 'Huawei', 'Çetin Hoş');
 INSERT INTO toptancilar2 VALUES(203, 'Erikson', 'Mehmet Gör');
 INSERT INTO toptancilar2 VALUES(204, 'Apple', 'Adem Coş');
 
-select * from toptancilar2;
-
 CREATE TABLE malzemeler2    
 (
-ted_vergino int, malzeme_id int, malzeme_isim VARCHAR(20), musteri_isim VARCHAR(25), CONSTRAINT fk FOREIGN KEY(ted_vergino) REFERENCES toptancilar(vergi_no) on delete cascade
+ted_vergino int, malzeme_id int, malzeme_isim VARCHAR(20), musteri_isim VARCHAR(25), CONSTRAINT fk FOREIGN KEY(ted_vergino) REFERENCES toptancilar2(vergi_no) on delete cascade
 );
 
 INSERT INTO malzemeler2 VALUES(201, 1001, 'Laptop', 'Aslı Can');
@@ -72,7 +67,6 @@ INSERT INTO malzemeler2 VALUES(202, 1004, 'Laptop', 'Veli Tan');
 INSERT INTO malzemeler2 VALUES(203, 1005, 'Telefon', 'Cemile Al');
 INSERT INTO malzemeler2 VALUES(204, 1006, 'TV', 'Ali Can');
 INSERT INTO malzemeler2 VALUES(204, 1007, 'Telefon', 'Ahmet Yaman');
-
 SELECT * FROM malzemeler2;
 SELECT * FROM toptancilar2;
 
@@ -95,7 +89,6 @@ insert into arac values(103, 'Wolkswagen', 'Golf', 350000, 20000, 'Manuel');
 insert into arac values(104, 'Ford', 'Mustang', 750000, 5000, 'Otomatik');
 insert into arac values(105, 'Porsche', 'Panamera', 850000, 5000, 'Otomatik');
 insert into arac values(106, 'Bugatti', 'Veyron', 950000, 5000, 'Otomatik');
-
 select * from arac;
 
 --SORU 1: arac tablosundaki en yüksek fiyat'ı listele

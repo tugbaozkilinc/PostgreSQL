@@ -2,7 +2,6 @@ CREATE TABLE ogrenciler20
 (
 id int, isim VARCHAR(50), veli_isim VARCHAR(50), yazili_notu int
 );
-
 select * from ogrenciler20;
 
 INSERT INTO ogrenciler20 VALUES(123, 'Ali Can', 'Hasan', 75);
@@ -26,7 +25,6 @@ CREATE TABLE talebeler1
 (
 id CHAR(3) primary key, isim VARCHAR(50), veli_isim VARCHAR(50), yazili_notu int
 );
-
 INSERT INTO talebeler1 VALUES('123', 'Ali Can', 'Hasan', 75);
 INSERT INTO talebeler1 VALUES('124', 'Merve Gul', 'Ayse', 85);
 INSERT INTO talebeler1 VALUES('125', 'Kemal Yasa', 'Hasan', 85);
@@ -42,7 +40,6 @@ INSERT INTO notlar2 VALUES('123','kimya', 75);
 INSERT INTO notlar2 VALUES('124', 'fizik', 65);
 INSERT INTO notlar2 VALUES('125', 'tarih', 90);
 INSERT INTO notlar2 VALUES('126', 'Matematik', 90);
-
 select * from talebeler1;
 select * from notlar2;
 
@@ -52,10 +49,8 @@ delete from notlar2 where talebe_id='123';
 --talebeler tablosundan id si 126 olan datayi silelim
 delete from talebeler1 where id='126';
 
-/*
-Her defasında önce child tablodaki verileri silmek yerine ON DELETE CASCADE silme özelliği ile parent tablo dan da veri silebiliriz. ON DELETE CASCADE komutu 
-kullanımında parent tablodan sildiğimiz data child tablo dan da silinir
-*/
+--Note: Her defasında önce child tablodaki verileri silmek yerine ON DELETE CASCADE silme özelliği ile parent tablo dan da veri silebiliriz. ON DELETE CASCADE komutu 
+--kullanımında parent tablodan sildiğimiz data child tablo dan da silinir ama child table silinmez.
 
 --IN CONDITION
 DROP TABLE if exists musteriler;
@@ -72,7 +67,6 @@ INSERT INTO musteriler VALUES(20, 'Mark', 'Apple');
 INSERT INTO musteriler VALUES(10, 'Adem', 'Orange'); 
 INSERT INTO musteriler VALUES(40, 'John', 'Apricot'); 
 INSERT INTO musteriler VALUES(20, 'Eddie', 'Apple');
-
 select * from musteriler;
 
 --Musteriler tablosundan urun ismi orange, apple veya apricot olan tum verileri listeleyiniz
@@ -81,16 +75,19 @@ select * from musteriler where urun_isim in('Orange', 'Apple', 'Apricot');
 
 --Musteriler tablosundan urun ismi orange ve urun_id si 10 olan tum verileri listeleyiniz
 select * from musteriler where urun_isim='Orange' and urun_id=10;
+select * from musteriler where urun_isim in('Orange') and urun_id in(10);
 
 --NOT IN CONDITION
+--Musteriler tablosundan urun ismi orange, apple veya apricot olmayan tum verileri listeleyiniz
 select * from musteriler where urun_isim not in('Orange', 'Apple', 'Apricot');
 
 --BETWEEN CONDITION
---musteriler tablosundan id si 20 ile 40 arasında olan tum verileri listeliyiniz
+--musteriler tablosundan id si 20 ile 40 arasında olan tum verileri listeleyiniz
 select * from musteriler where urun_id>=20 and urun_id<=40;
 select * from musteriler where urun_id between 20 and 40; --20 ve 40 dahil
 
 --NOT BETWEEN CONDITION
+--musteriler tablosundan id si 20 ile 40 arasında olmayan tum verileri listeleyiniz
 select * from musteriler where urun_id not between 20 and 40;
 
 --Practice 6: 
@@ -132,7 +129,6 @@ INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
 INSERT INTO markalar VALUES(102, 'Adidas', 10000);
 INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
 INSERT INTO markalar VALUES(104, 'Nike', 19000);
-
 select * from calisanlar2;
 select * from markalar;
 
@@ -157,7 +153,7 @@ select max(maas) as maksimum_maas from calisanlar2; --Eger bir sutuna gecici ola
 select min(maas) as minimum_maas from calisanlar2;
 
 --calisanlar tablosundaki maas larin toplamini listeleyiniz
-select sum(maas) from calisanlar2;
+select sum(maas) as sum_maas from calisanlar2;
 
 --calisanlar tablosundaki maas larin ortalamasini listeleyiniz
 select avg(maas) from calisanlar2;
@@ -165,7 +161,7 @@ select round(avg(maas)) from calisanlar2;
 select round(avg(maas), 2) from calisanlar2;
 
 --calisanlar tablosundaki maas larin sayisini listeleyiniz
-select count(maas) from calisanlar2; --7 null i saymadi
+select count(maas) from calisanlar2; --7 null i saymaz
 select count(*) from calisanlar2; --8
 
 select * from markalar;
@@ -178,9 +174,9 @@ select marka_id, marka_isim, (select count(sehir) as sehir_sayisi from calisanla
 --Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin toplam maaşini listeleyiniz
 create view toplam_maas
 as
-select marka_isim, calisan_sayisi, (select sum(maas) as toplam_maas from calisanlar2 where marka_isim=isyeri) from markalar;
-
+select marka_isim, calisan_sayisi, (select sum(maas) as toplam_maas from calisanlar2 where isyeri=marka_isim) from markalar;
 select * from toplam_maas;
+
 --Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin maksimum ve minumum maaşini listeleyen bir Sorgu yaziniz.
 --1. yol
 select marka_isim, calisan_sayisi, 
@@ -199,7 +195,6 @@ select marka_isim, calisan_sayisi,
 (select max(maas) from calisanlar2 where marka_isim=isyeri) as en_yuksek_maas, 
 (select min(maas) from calisanlar2 where marka_isim=isyeri) as en_dusuk_maas
 from markalar;
-
 select * from max_min_maas;
 
 --EXISTS CONDITION
@@ -226,7 +221,6 @@ INSERT INTO nisan1 VALUES(20, 'Ayse', 'Toyota');
 INSERT INTO nisan1 VALUES(50, 'Yasar', 'Volvo');
 INSERT INTO nisan1 VALUES(20, 'Mine', 'Toyota');
 INSERT INTO nisan1 VALUES(20, 'Eddie', 'Toyota');
-
 select * from mart1;
 select * from nisan1;
 
@@ -251,7 +245,6 @@ INSERT INTO tedarikciler VALUES(102, 'Huawei', 'Çin Li');
 INSERT INTO tedarikciler VALUES(103, 'Erikson', 'Maki Tammen');
 INSERT INTO tedarikciler VALUES(104, 'Apple', 'Adam Eve');
 
-DROP TABLE if exists tedarikciler;
 CREATE TABLE urunler --child
 (
 ted_vergino int, urun_id int, urun_isim VARCHAR(50), musteri_isim VARCHAR(50), CONSTRAINT fk_urunler FOREIGN KEY(ted_vergino) REFERENCES tedarikciler(vergi_no) on delete cascade
@@ -264,7 +257,6 @@ INSERT INTO urunler VALUES(102, 1004, 'Laptop', 'Veli Han');
 INSERT INTO urunler VALUES(103, 1005, 'Phone', 'Canan Ak');
 INSERT INTO urunler VALUES(104, 1006, 'TV', 'Ali Bak');
 INSERT INTO urunler VALUES(104, 1007, 'Phone', 'Aslan Yılmaz');
-
 select * from tedarikciler;
 select * from urunler;
 
@@ -298,7 +290,6 @@ INSERT INTO tedarikciler VALUES(101, 'IBM', 'Kim Yon');
 INSERT INTO tedarikciler VALUES(102, 'Huawei', 'Çin Li');
 INSERT INTO tedarikciler VALUES(103, 'Erikson', 'Maki Tammen');
 INSERT INTO tedarikciler VALUES(104, 'Apple', 'Adam Eve');
-
 select * from tedarikciler;
 select * from urunler;
 
@@ -307,4 +298,8 @@ UPDATE urunler SET urun_isim=(select firma_ismi from tedarikciler WHERE irtibat_
 
 --Urunler tablosunda laptop satin alan musterilerin ismini, firma_ismi Apple’in irtibat_isim'i ile degistirin.
 update urunler set musteri_isim=(select irtibat_ismi from tedarikciler where firma_ismi='Apple') where urun_isim='Laptop';
+
+
+
+
 
