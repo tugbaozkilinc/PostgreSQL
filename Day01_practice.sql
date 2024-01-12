@@ -1,7 +1,7 @@
 drop table if exists ogrenciler; --DDL
 create table ogrenciler
 (
-id int, isim varchar(40), adres varchar(100), sinav_notu int
+id int, isim varchar(40), adres varchar(100), sinav_notu real
 );
 
 --INSERT: Veritabanına yeni veri ekler.
@@ -51,12 +51,13 @@ delete from ogrenciler where sinav_notu<100;
 
 --SORU 12: Tablodaki tüm satırları siliniz
 truncate table ogrenciler; --!verileri siler tabloyu degil
-delete from ogrenciler;
+delete from ogrenciler; --!verileri siler tabloyu degil
 select * from ogrenciler;
 
 --SORU 13: memurlar isminde bir tablo oluşturunuz. id, isim, maas sutunları olsun. id sutununun data tipi int olsun. PRİMARY KEY kısıtlaması olsun.
 --isim sutununun data tipi varchar(30) olsun. UNIQUE kısıtlaması olsun. maas sutununun data tipi int olsun. maas 5000 buyuk olsun. NOT NULL kısıtlaması olsun.
 drop table if exists memurlar;
+drop table memurlar;
 
 create table memurlar
 (
@@ -67,11 +68,12 @@ select * from memurlar;
 --SORU 14: insanlar isminde bir tablo oluşturunuz. isim, soyisim sutunları olsun. isim sutununun data tipi int olsun. PRİMARY KEY kısıtlaması olsun. Kısıtlamanın ismi pr_ks olsun
 --soyisim sutununun data tipi varchar(30) olsun. UNIQUE kısıtlaması olsun. Kısıtlamanın ismi uni_ks olsun
 drop table if exists insanlar;
+
 create table insanlar
 (
 isim int, soyisim varchar(30), constraint pr_ks primary key(isim), constraint uni_ks unique(soyisim)
 );
-
+select * from insanlar;
 
 
 

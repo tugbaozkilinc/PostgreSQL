@@ -14,13 +14,14 @@ INSERT INTO ogrenciler20 VALUES(129, 'Ali Can', 'Ayse', 95);
 INSERT INTO ogrenciler20 VALUES(121, 'Omer Faruk', 'Can', 99);
 INSERT INTO ogrenciler20 VALUES(128, 'Veli Tan', 'Ali', 99);
 
---TRUNCATE bir tablodaki tum verileri geri alamayacagimiz sekilde siler, sartli silme yapmaz
+--TRUNCATE bir tablodaki tum verileri siler, sartli silme yapmaz
 truncate table ogrenciler20;
 truncate ogrenciler20;
 
---ON DELETE CASCADE
 DROP TABLE if exists talebeler; --eger tablo varsa tabloyu siler
+drop table notlar2 cascade;
 
+--ON DELETE CASCADE
 CREATE TABLE talebeler1
 (
 id CHAR(3) primary key, isim VARCHAR(50), veli_isim VARCHAR(50), yazili_notu int
@@ -33,7 +34,7 @@ INSERT INTO talebeler1 VALUES('127', 'Mustafa Bak', 'Can', 99);
 
 CREATE TABLE notlar2
 (
-talebe_id char(3), ders_adi varchar(30), yazili_notu int, CONSTRAINT notlar_fk FOREIGN KEY(talebe_id) REFERENCES talebeler1(id) on delete cascade
+talebe_id char(3), ders_adi varchar(30), yazili_notu int, CONSTRAINT notlar_fk FOREIGN KEY(talebe_id) REFERENCES talebeler1(id) on delete cascade --child table'a yazılır
 );
 
 INSERT INTO notlar2 VALUES('123','kimya', 75);
@@ -88,7 +89,7 @@ select * from musteriler where urun_id between 20 and 40; --20 ve 40 dahil
 
 --NOT BETWEEN CONDITION
 --musteriler tablosundan id si 20 ile 40 arasında olmayan tum verileri listeleyiniz
-select * from musteriler where urun_id not between 20 and 40;
+select * from musteriler where urun_id not between 20 and 40; --20 ve 40 dahil degil
 
 --Practice 6: 
 --id'si 10 ile 30 arasında olan tum verileri listeleyiniz
@@ -169,8 +170,12 @@ select * from calisanlar2;
 
 --AGGREGATE METHOD LARDA SUBQUERY
 --Her markanin id’sini, ismini ve toplam kaç şehirde bulunduğunu listeleyen bir SORGU yaziniz
-select marka_id, marka_isim, (select count(sehir) as sehir_sayisi from calisanlar2 where marka_isim=isyeri) from markalar;
+select marka_id, marka_isim, (select count(sehir) as sehir_sayisi from calisanlar2 where isyeri=marka_isim) from markalar;
 
+--VIEW KULLANIMI 
+--yaptigimiz sorgulari hafizaya alir ve tekrar bizden istenen sorgulama yerine view e atadigimiz ismi select komutuyla cagiririz
+--Bu kod bir gorunum olusturmak icin kullanılır. Görünümler, method lardan farklıdır. Methodlar, bir nesnenin gerçekleştirebileceği 
+--eylemleri temsil eder. Görünümler ise, bir tablodan veya tablolardan veri temsil eder.
 --Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin toplam maaşini listeleyiniz
 create view toplam_maas
 as
@@ -184,11 +189,10 @@ select marka_isim, calisan_sayisi,
 (select min(maas) from calisanlar2 where marka_isim=isyeri) as en_dusuk_maas
 from markalar;
 --2. yol
-select marka_isim, calisan_sayisi, (select max(maas) as max_maas from calisanlar2 where marka_isim=isyeri),
-(select min(maas) as min_maas from calisanlar2 where marka_isim=isyeri) from markalar;
+select marka_isim, calisan_sayisi, (select max(maas) as max_maas from calisanlar2 where isyeri=marka_isim),
+(select min(maas) as min_maas from calisanlar2 where isyeri=marka_isim) from markalar;
 
---VIEW KULLANIMI 
---yaptigimiz sorgulari hafizaya alir ve tekrar bizden istenen sorgulama yerine view e atadigimiz ismi select komutuyla cagiririz
+--VIEW
 create view max_min_maas 
 as
 select marka_isim, calisan_sayisi, 
@@ -235,7 +239,7 @@ select musteri_isim, urun_isim from nisan1 where not exists(select urun_isim fro
 
 --DML UPDATE
 DROP TABLE if exists tedarikciler;
-CREATE TABLE tedarikciler --parent
+CREATE TABLE tedarikciler 
 (
 vergi_no int PRIMARY KEY, firma_ismi VARCHAR(50), irtibat_ismi VARCHAR(50)
 );
@@ -245,7 +249,7 @@ INSERT INTO tedarikciler VALUES(102, 'Huawei', 'Çin Li');
 INSERT INTO tedarikciler VALUES(103, 'Erikson', 'Maki Tammen');
 INSERT INTO tedarikciler VALUES(104, 'Apple', 'Adam Eve');
 
-CREATE TABLE urunler --child
+CREATE TABLE urunler 
 (
 ted_vergino int, urun_id int, urun_isim VARCHAR(50), musteri_isim VARCHAR(50), CONSTRAINT fk_urunler FOREIGN KEY(ted_vergino) REFERENCES tedarikciler(vergi_no) on delete cascade
 );   
@@ -298,8 +302,6 @@ UPDATE urunler SET urun_isim=(select firma_ismi from tedarikciler WHERE irtibat_
 
 --Urunler tablosunda laptop satin alan musterilerin ismini, firma_ismi Apple’in irtibat_isim'i ile degistirin.
 update urunler set musteri_isim=(select irtibat_ismi from tedarikciler where firma_ismi='Apple') where urun_isim='Laptop';
-
-
 
 
 

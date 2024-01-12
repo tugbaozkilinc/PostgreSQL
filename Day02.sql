@@ -39,7 +39,7 @@ ogrenci_no char(7) unique, isim varchar(20) not null, soyisim varchar(25), not_o
 );
 select * from ogrenciler7;
 
-insert into ogrenciler7 values('1234567', 'Osman', 'Evren', 75.0, now());
+insert into ogrenciler7 values('1234567', 'Osman', 'Nisa', 75.0, now());
 insert into ogrenciler7 values('1234567', 'Ali', 'Veli', 75.0, now()); --unique constraint, bu yuzden eklenemez
 insert into ogrenciler7 values('1234568', 'Ali', 'Veli', 75.0, now());
 insert into ogrenciler7(ogrenci_no, soyisim, not_ort) values('1234569', 'Can', 55.5); --not null constraint, bu yuzden eklenemez

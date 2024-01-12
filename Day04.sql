@@ -82,14 +82,14 @@ select * from insanlar order by isim asc, soyisim desc;
 select * from insanlar order by isim, soyisim desc;
 
 --İsim ve soyisim değerlerini soyisim kelime uzunluklarına göre sıralayınız
-select isim, soyisim from insanlar order by length(soyisim);
+select isim, soyisim from insanlar order by length(soyisim)+length(isim);
 select isim, soyisim from insanlar order by length(soyisim) desc;
 
 --Tüm isim ve soyisim değerlerini aynı sutunda çağırarak her bir sütun değerini uzunluğuna göre sıralayınız
 select isim||' '||soyisim as isim_soyisim from insanlar order by length(isim||soyisim); --1. yol
 select isim||' '||soyisim as isim_soyisim from insanlar order by length(isim)+length(soyisim); --2. yol
 select concat(isim, ' ', soyisim) as isim_soyisim from insanlar order by length(isim)+length(soyisim); --3. yol
-select isim||' '|| soyisim as isim_soyisim from insanlar order by length(concat(isim, soyisim)); --4. yol
+select isim||' '||soyisim as isim_soyisim from insanlar order by length(concat(isim, soyisim)); --4. yol
 
 --GROUP BY CLAUSE
 --Group By komutu sonuçları bir veya daha fazla sütuna göre gruplamak için SELECT komutuyla birlikte kullanılır.
